@@ -33,7 +33,7 @@ public class RequestMessage implements Serializable {
         this.methodName = methodName;
     }
 
-    public RequestMessage(Object[] args, long sequenceNumber, String methodName) {
+    public RequestMessage(String methodName, Object[] args, long sequenceNumber) {
         this.args = args;
         this.sequenceNumber = sequenceNumber;
         this.methodName = methodName;
