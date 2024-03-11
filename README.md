@@ -8,12 +8,12 @@
 - The concurrency performance for integer addition RPC on the Apple M2 chip is approximately `21,000` per second.
 
 ## Architecture
-![image](https://github.com/Andrew-wong-ty/go-RPC/assets/78400045/32d098f2-08f9-432c-9a91-fbe5b3f0f197)
+![image](https://github.com/Andrew-wong-ty/java-RPC/assets/78400045/0b7ecb4c-b297-4015-89e5-96a9caafcb32)
 The image illustrates how it works by using an example.
-- It first creates a `Math` Interface and implementation. The RPC client registers the interface and the RPC server registers the interface and its implementation. Once the server is running, the client can establish a connection by dialing it.
-- When the client invokes the `Add` function, which adds two numbers, the client creates a unique sequence number `seq` and encodes `Add`'s arguments and function name into bytes (`body`). Then the header encodes the `body`'s size. Then the `header`+`body` as a whole is written to the `conn`. It then creates a `channel` for this function to wait until returns are received or timeout.
+- It first creates a `MyMath` Interface and implementation. The RPC client registers the interface and the RPC server registers the interface and its implementation. Once the server is running, the client can establish a connection by dialing it.
+- When the client invokes the `Add` function, which adds two numbers, the client creates a unique sequence number `seq` and encodes `Add`'s arguments and function name into bytes (`body`). Then the header encodes the `body`'s size. Then the `header`+`body` as a whole is written to the `conn`. It then creates a `BlockingQueue` for this function to wait for return.
 - Then on the server side, it reads the `body` and decodes out arguments and the function name. A goroutine uses the name to look up the correspondent function's reflection value and call it using arguments. Then the arguments are encoded and packaged in the same way to send to the client.
-- Finally, on the client side, a goroutine decodes out a `body` consisting of return values, the sequence number `seq`, etc. Then `seq` is used to look up the previously mentioned `channel`. Returns are sent to this `channel`, and the function receives it and finally returns the result of `Add`.
+- Finally, on the client side, a goroutine decodes out a `body` consisting of return values, the sequence number `seq`, etc. Then `seq` is used to look up the previously mentioned `BlockingQueue`. Returns are sent to this `BlockingQueue`, and the function receives it and finally returns the result of `Add`.
 
 Note: the previous description simplified the process to convey the general idea, which differs from the actual implementation.
 
