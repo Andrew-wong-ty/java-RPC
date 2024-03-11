@@ -51,6 +51,7 @@ public class Main {
     rpcServer.start(1234);
     // create client
     final MyMath myMath = (MyMath) Stub.create(MyMath.class, "127.0.0.1", 1234);
+    // conduct RPC call
     final Random random = new Random();
     int concurrency = 100_0000;
     Thread[] threads = new Thread[concurrency];
