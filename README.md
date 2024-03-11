@@ -76,3 +76,6 @@ public class Main {
 }
 
 ```
+## TODOs
+1. RPC server registers multiple interfaces
+2. Forcing interface throws RemoteException
